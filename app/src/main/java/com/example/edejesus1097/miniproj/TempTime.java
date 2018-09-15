@@ -1,8 +1,8 @@
 package com.example.edejesus1097.miniproj;
 import java.util.*;
 public class TempTime {
-   public List<Integer> Time = new ArrayList();
-   public List<Integer> Temp = new ArrayList();
+   public List<Integer> Time = new ArrayList<Integer>();
+   public List<Integer> Temp = new ArrayList<Integer>();
 
     public TempTime(){}
 
