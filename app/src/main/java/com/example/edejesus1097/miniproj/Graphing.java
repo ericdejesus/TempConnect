@@ -1,5 +1,4 @@
 package com.example.edejesus1097.miniproj;
-package tutorials.application.graphviewtutorial;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import com.jjoe64.graphview.DefaultLabelFormatter;

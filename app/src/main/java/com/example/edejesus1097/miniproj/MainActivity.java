@@ -1,5 +1,6 @@
 package com.example.edejesus1097.miniproj;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -23,7 +24,7 @@ import com.google.firebase.database.*;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.android.gms.auth.account.*;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity{
     Context context =this;
     private static final String TAG = "MainActivity";
     int RC_SIGN_IN =0;
@@ -39,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent intent = new Intent(context,Upload.class);
+        startActivity( intent );
         //setting Firebase variables:
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -71,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Signs in at start of the app
         signIn();
+
 
     }
 
@@ -115,7 +119,9 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(context,"Log in Firebase",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context,"Logged in Firebase",Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(context,Upload.class);
+                            startActivity( intent );
 
                         } else {
                             // If sign in fails, display a message to the user and closes app
