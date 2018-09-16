@@ -28,13 +28,24 @@ import com.google.android.gms.auth.account.*;
 public class Upload extends Activity{
     private static final int READ_REQUEST_CODE = 42;
     private static final String TAG = "Upload";
-
+    static GoogleSignInAccount account;
+    static FirebaseAuth mAuth;
+    static FirebaseUser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
         // Create a storage reference from our app
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        account = GoogleSignIn.getLastSignedInAccount(this);
+        if (account ==null){
+            Toast.makeText(this, "wrong", Toast.LENGTH_SHORT).show();
+        }
+        mAuth =  FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        if (user == null) {
+            finish();
+        }
+
         performFileSearch();
     }
 /**
@@ -64,6 +75,10 @@ public class Upload extends Activity{
         super.onStart();
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
+        if (account == null)
+        {
+            finish();
+        }
         //updateUI(account);
 
     }
@@ -85,8 +100,8 @@ public class Upload extends Activity{
                 uri = resultData.getData();
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 StorageReference storageRef = storage.getReference();
-                StorageReference riversRef = storageRef.child("text/"+uri.getLastPathSegment());
-                UploadTask uploadTask = riversRef.putFile(uri);
+                StorageReference csvRef = storageRef.child("users/"+user.getUid()+"/"+uri.getLastPathSegment());
+                UploadTask uploadTask = csvRef.putFile(uri);
 
 // Register observers to listen for when the download is done or if it fails
                 uploadTask.addOnFailureListener(new OnFailureListener() {
