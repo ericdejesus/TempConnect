@@ -15,8 +15,6 @@ import android.content.Intent;
 import android.support.annotation.*;
 import android.widget.Toast;
 import android.net.*;
-
-
 import com.google.android.gms.tasks.*;
 import com.google.android.gms.auth.api.signin.*;
 import com.google.android.gms.common.api.*;
@@ -26,6 +24,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.*;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.android.gms.auth.account.*;
+
+//uses Googles filesearcher API
 public class Upload extends Activity{
     private static final int READ_REQUEST_CODE = 42;
     private static final String TAG = "Upload";
@@ -50,7 +50,7 @@ public class Upload extends Activity{
         performFileSearch();
     }
 /**
- * Fires an intent to spin up the "file chooser" UI and select an image.
+ *
  */
         public void performFileSearch() {
 
@@ -62,10 +62,7 @@ public class Upload extends Activity{
             // file (as opposed to a list of contacts or timezones)
             intent.addCategory(Intent.CATEGORY_OPENABLE);
 
-            // Filter to show only images, using the image MIME data type.
-            // If one wanted to search for ogg vorbis files, the type would be "audio/ogg".
-            // To search for all documents available via installed storage providers,
-            // it would be "*/*".
+            //
             intent.setType("text/plain");
 
             startActivityForResult(intent, READ_REQUEST_CODE);

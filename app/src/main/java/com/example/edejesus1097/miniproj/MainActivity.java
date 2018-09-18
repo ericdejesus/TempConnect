@@ -40,7 +40,7 @@ public class MainActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //setting Firebase variables:
+        //setting Firebase/Google variables:
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -49,25 +49,8 @@ public class MainActivity extends Activity{
                 .build();
 
 
-        //for connecting to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference();
-
         //for authentication
-
         mAuth = FirebaseAuth.getInstance();
-
-        //test for insertions
-        Integer test1[] = new Integer[10];
-        Integer test2[] = new Integer[10];
-        for (int i = 0; i < 10; i++) {
-            test1[i] = i;
-            test2[i] = i + 70;
-        }
-        TempTime test = new TempTime(test1, test2, 10);
-
-        myRef.child("Test Temp").child("2123").setValue(test);
-
         mGoogleSignInClient = GoogleSignIn.getClient(context, gso);
 
         //Signs in at start of the app
@@ -113,7 +96,7 @@ public class MainActivity extends Activity{
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
+                            // Sign in success, Switch to list view
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(context,"Logged in Firebase",Toast.LENGTH_SHORT).show();
@@ -152,24 +135,5 @@ public class MainActivity extends Activity{
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

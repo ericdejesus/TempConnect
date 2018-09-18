@@ -1,5 +1,6 @@
 package com.example.edejesus1097.miniproj;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,6 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -35,11 +39,14 @@ public class List extends AppCompatActivity {
     FirebaseUser user;
     DatabaseReference myRef;
     static String string;
-    //static String[] stringList;
+    static Button button;
     ArrayList<String> names;
     private static final String TAG = "List";
     static FirebaseDatabase database;
-    TextView tv;
+    static LinearLayout linearLayout;
+    static NestedScrollView scrollView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,76 +54,82 @@ public class List extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mAuth =  FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
+        //these are for adding buttons dynamically based on count of files
+        scrollView = findViewById(R.id.nestedscrollview);
+        linearLayout = new LinearLayout(this);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
 
+
+        //these are used to access the data as well as find which user it is.
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
 
-
+        //pointing reference to the user's folder
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("users/"+user.getUid()+"/");
+        DatabaseReference ref = database.getReference("users/" + user.getUid() + "/");
 
-// Attach a listener to read the data at our posts reference
+        // Attach a listener to read the data at our posts reference
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                Log.d(TAG, "onDataChange: "+ dataSnapshot.getValue());
+                Log.d(TAG, "onDataChange: " + dataSnapshot.getValue());
                 string = dataSnapshot.getValue().toString();
 
                 int count = 0;
-                for(int i =0; i<string.length();i++)
-                {
-                    if(string.charAt(i) == '=')
-                    {
+                for (int i = 0; i < string.length(); i++) {
+                    if (string.charAt(i) == '=') {
                         count++;
                     }
                 }
 
-                String[] stringList= new String[count];
-
-                int listitr =0;
-                for( int i=0; i<string.length() ;i++)
-                {
-                    if(string.charAt(i) == '=')
-                    {
+                //creates a list of strings for the buttons off of file names
+                String[] stringList = new String[count];
+                int listitr = 0;
+                for (int i = 0; i < string.length(); i++) {
+                    if (listitr == count) break;
+                    else if (string.charAt(i) == ',') {
                         stringList[listitr] = "";
-                    }
-                    else if(string.charAt(i) == ',')
-                    {
+                    } else if (string.charAt(i) == '=') {
                         listitr++;
-                    }
-                    else
-                    {
+                    } else if (i == 0) {
+                        stringList[listitr] = "";
+                    } else {
                         stringList[listitr] += string.charAt(i);
                     }
                 }
-                string ="";
-                for(int i =0; i<count;i++)
-                {
-                    string+=stringList[i]+" ";
+
+
+                for (int i = 0; i < count; i++) {
+                    button = new Button(List.this);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            //have to recast view since the buttons don't have ids
+                            Button button = (Button) v;
+
+                            //puts which file to download and access
+                            Intent intent = new Intent(List.this, MainActivity.class);
+                            intent.putExtra("filename", button.getText());
+                            Log.d(TAG, "onClick: " + button.getText());
+                        }
+                    });
+
+                    //adds title to the buttons
+                    button.setText(stringList[i]);
+                    linearLayout.addView(button);
                 }
-                tv.setText(string);
-
-
+                //adds the buttons to the view
+                scrollView.addView(linearLayout);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                //for errors
             }
         });
-            //myRef.addValueEventListener(postListener);
 
-        tv = findViewById(R.id.Listtext);
-
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, string, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
+
+
 }
