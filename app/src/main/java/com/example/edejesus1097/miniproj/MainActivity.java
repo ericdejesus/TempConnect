@@ -101,7 +101,6 @@ public class MainActivity extends Activity{
             //If can't login, close the app
             finish();
             System.exit(0);
-            //updateUI(null);
         }
 
     }
@@ -118,7 +117,7 @@ public class MainActivity extends Activity{
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(context,"Logged in Firebase",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(context,Upload.class);
+                            Intent intent = new Intent(context,List.class);
                             startActivity( intent );
 
                         } else {

@@ -1,5 +1,6 @@
 package com.example.edejesus1097.miniproj;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 public class TempTime {
    public List<Integer> Time = new ArrayList<Integer>();
    public List<Integer> Temp = new ArrayList<Integer>();

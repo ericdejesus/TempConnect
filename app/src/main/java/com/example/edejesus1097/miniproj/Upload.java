@@ -22,6 +22,7 @@ import com.google.android.gms.auth.api.signin.*;
 import com.google.android.gms.common.api.*;
 import com.google.firebase.*;
 import com.google.firebase.auth.*;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.*;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.android.gms.auth.account.*;
@@ -95,9 +96,8 @@ public class Upload extends Activity{
             // Instead, a URI to that document will be contained in the return intent
             // provided to this method as a parameter.
             // Pull that URI using resultData.getData().
-            Uri uri = null;
+            final Uri uri = resultData.getData();
             if (resultData != null) {
-                uri = resultData.getData();
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 StorageReference storageRef = storage.getReference();
                 StorageReference csvRef = storageRef.child("users/"+user.getUid()+"/"+uri.getLastPathSegment());
@@ -107,13 +107,15 @@ public class Upload extends Activity{
                 uploadTask.addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
-                        // Handle unsuccessful uploads
                     }
                 }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                        // ...
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        DatabaseReference myRef = database.getReference();
+                        //setting path in database for building list to show in List.java
+                        myRef.child("users").child(user.getUid()).child(uri.getLastPathSegment()).setValue("users/"+user.getUid()+"/"+uri.getLastPathSegment());
+                        Toast.makeText(Upload.this, "Upload Successful", Toast.LENGTH_SHORT).show();
                     }
                 });
 
