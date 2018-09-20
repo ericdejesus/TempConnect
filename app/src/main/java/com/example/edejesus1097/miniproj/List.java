@@ -109,9 +109,10 @@ public class List extends AppCompatActivity {
                             Button button = (Button) v;
 
                             //puts which file to download and access
-                            Intent intent = new Intent(List.this, MainActivity.class);
+                            Intent intent = new Intent(List.this, GraphActivity.class);
                             intent.putExtra("filename", button.getText());
                             Log.d(TAG, "onClick: " + button.getText());
+                            startActivity(intent);
                         }
                     });
 

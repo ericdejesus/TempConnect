@@ -1,4 +1,6 @@
 package com.example.edejesus1097.miniproj;
+import android.content.ContentResolver;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import com.jjoe64.graphview.DefaultLabelFormatter;
@@ -7,6 +9,7 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
@@ -28,7 +31,10 @@ public class Graphing extends AppCompatActivity {
         // initialize reader to read CSV
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new InputStreamReader(getAssets().open("timetemp.csv"))); // read from CSV file
+            Uri uri;
+            ContentResolver cr = getContentResolver();
+            InputStream is = cr.openInputStream(uri);
+            reader = new BufferedReader(new InputStreamReader(is)); // read from CSV file
             reader.readLine();  //skip first line of file
             String comma; // used to separate time and temp by comma in file
 
@@ -39,6 +45,7 @@ public class Graphing extends AppCompatActivity {
                 storeVals = comma.split(",");
                 time = Double.parseDouble(storeVals[0]);
                 temp = Double.parseDouble(storeVals[1]);
+
                 DataPoint dp = new DataPoint(time, temp);
                 dataPoints.add(dp);
             }
@@ -55,6 +62,7 @@ public class Graphing extends AppCompatActivity {
 
         } catch (IOException e) {
             e.printStackTrace();
+            finish();
         }
 
         // Customize numbers for X and Y axes

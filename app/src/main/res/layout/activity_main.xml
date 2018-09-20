@@ -28,9 +28,5 @@
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_dialog_email" />
 
-    <com.jjoe64.graphview.GraphView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/graph"/>
 
 </android.support.design.widget.CoordinatorLayout>
