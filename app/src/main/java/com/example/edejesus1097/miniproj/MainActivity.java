@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.util.*;
 import android.content.Intent;
 import android.support.annotation.*;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.*;
@@ -40,6 +41,14 @@ public class MainActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Button button = findViewById(R.id.tolist);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context,List.class);
+                startActivity(intent);
+            }
+        });
         //setting Firebase/Google variables:
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -116,21 +125,12 @@ public class MainActivity extends Activity{
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-
-        //updateUI(account);
-
+        if(account==null) finish();
     }
 
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.sign_in_button:
-                signIn();
-                break;
-        }
-    }
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);

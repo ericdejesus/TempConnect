@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -61,6 +62,7 @@ public class List extends AppCompatActivity {
         linearLayout.setOrientation(LinearLayout.VERTICAL);
 
 
+
         //these are used to access the data as well as find which user it is.
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
@@ -76,6 +78,26 @@ public class List extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 Log.d(TAG, "onDataChange: " + dataSnapshot.getValue());
+                if(dataSnapshot.getValue()== null) {
+                    button = new Button(List.this);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            //have to recast view since the buttons don't have ids
+                            Button button = (Button) v;
+
+                            //puts which file to download and access
+                            Intent intent = new Intent(List.this, Upload.class);
+                            startActivity(intent);
+                        }
+                    });
+                    button.setText("Upload CSV's");
+                    linearLayout.addView(button);
+                    scrollView1 =findViewById(R.id.scrollview);
+                    scrollView1.removeAllViews();
+                    scrollView1.addView(linearLayout);
+                    return;
+
+                }
                 string = dataSnapshot.getValue().toString();
 
                 int count = 0;
@@ -88,15 +110,16 @@ public class List extends AppCompatActivity {
                 //creates a list of strings for the buttons off of file names
                 String[] stringList = new String[count];
                 int listitr = 0;
-                for (int i = 0; i < string.length(); i++) {
+                for (int i = 0; i < string.length()-1; i++) {
                     if (listitr == count) break;
-                    else if (string.charAt(i) == ',') {
+                    else if (string.charAt(i) == '='||string.charAt(i) == '/') {
                         stringList[listitr] = "";
-                    } else if (string.charAt(i) == '=') {
+                    } else if (string.charAt(i) == ',') {
                         listitr++;
                     } else if (i == 0) {
                         stringList[listitr] = "";
-                    } else {
+                    }
+                    else {
                         stringList[listitr] += string.charAt(i);
                     }
                 }
@@ -137,6 +160,7 @@ public class List extends AppCompatActivity {
                 setContentView(R.layout.activity_list);
                 //adds the buttons to the view
              scrollView1 =findViewById(R.id.scrollview);
+             scrollView1.removeAllViewsInLayout();
                 scrollView1.addView(linearLayout);
             }
 
@@ -146,7 +170,14 @@ public class List extends AppCompatActivity {
             }
         });
 
+
     }
 
-
+   /* @Override
+    protected void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+    }*/
 }
