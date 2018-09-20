@@ -1,6 +1,6 @@
 # About #
 TempConnect is an Android Studio Application that uses Google sign in for  Authentication and Firebase for storage. Using Firebase's api,
-,csv files are uploaded to Firebase's cloud storage. When selected in the list, it'll download the csv file and plot it. The graph will either plot temperature
+csv files are uploaded to Firebase's cloud storage. When selected in the list, it'll download the csv file and plot it. The graph will either plot temperature
 over time or humidity over time, which were randomly generated in MATLAB.
 
 For our design we wanted it to go Signin->List of CSV -> (Graph the csv) or (upload csvs)
