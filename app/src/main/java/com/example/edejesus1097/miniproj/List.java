@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -52,13 +53,6 @@ public class List extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //have to recast view since the buttons don't have ids
-                Intent intent = new Intent(List.this, GraphActivity.class);
-                startActivity(intent);
-        }});
 
 
         //these are for adding buttons dynamically based on count of files
@@ -106,6 +100,19 @@ public class List extends AppCompatActivity {
                         stringList[listitr] += string.charAt(i);
                     }
                 }
+                button = new Button(List.this);
+                button.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        //have to recast view since the buttons don't have ids
+                        Button button = (Button) v;
+
+                        //puts which file to download and access
+                        Intent intent = new Intent(List.this, Upload.class);
+                        startActivity(intent);
+                    }
+                });
+                button.setText("Upload CSV's");
+                linearLayout.addView(button);
 
 
                 for (int i = 0; i < count; i++) {

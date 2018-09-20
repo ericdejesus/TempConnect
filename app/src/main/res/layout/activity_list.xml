@@ -35,19 +35,8 @@
 
     <include
         android:id="@+id/include"
-        layout="@layout/content_list" />
+        layout="@layout/content_list"
+        android:layout_height="732dp" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:theme="@style/Base.V22.Theme.AppCompat.Light"
-        android:visibility="visible"
-        app:backgroundTint="@color/colorPrimaryDark"
-        app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="right|center"
-        app:srcCompat="@android:drawable/ic_menu_upload" />
 
 </android.support.design.widget.CoordinatorLayout>
