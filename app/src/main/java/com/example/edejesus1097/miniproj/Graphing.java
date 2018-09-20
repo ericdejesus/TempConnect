@@ -31,10 +31,10 @@ public class Graphing extends AppCompatActivity {
         // initialize reader to read CSV
         BufferedReader reader = null;
         try {
-            Uri uri;
-            ContentResolver cr = getContentResolver();
-            InputStream is = cr.openInputStream(uri);
-            reader = new BufferedReader(new InputStreamReader(is)); // read from CSV file
+            //Uri uri;
+            //ContentResolver cr = getContentResolver();
+            //InputStream is = cr.openInputStream(uri);
+            reader = new BufferedReader(new InputStreamReader(getAssets().open("temptime_csv"))); // read from CSV file
             reader.readLine();  //skip first line of file
             String comma; // used to separate time and temp by comma in file
 

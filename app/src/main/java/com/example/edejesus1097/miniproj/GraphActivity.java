@@ -3,6 +3,7 @@ package com.example.edejesus1097.miniproj;
 import android.app.Activity;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +36,7 @@ public class GraphActivity extends Activity {
         user = mAuth.getCurrentUser();
         setContentView(R.layout.activity_graph);
         FirebaseStorage storage = FirebaseStorage.getInstance();
+        FloatingActionButton fab = findViewById(R.id.fab);
 
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReferenceFromUrl("gs://miniproj-7246c.appspot.com/");
@@ -55,6 +57,7 @@ public class GraphActivity extends Activity {
             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                 // Local temp file has been created
                 Toast.makeText(GraphActivity.this, "Works:"+uri.toString(), Toast.LENGTH_SHORT).show();
+
 
             }
         }).addOnFailureListener(new OnFailureListener() {

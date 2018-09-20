@@ -99,6 +99,9 @@ public class Upload extends Activity{
                 StorageReference storageRef = storage.getReference();
                 StorageReference csvRef = storageRef.child("users/"+user.getUid()+"/"+uri.getLastPathSegment());
                 UploadTask uploadTask = csvRef.putFile(uri);
+                Toast.makeText(this, "File Uploaded", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Upload.this, List.class);
+                startActivity(intent);
 
 // Register observers to listen for when the download is done or if it fails
                 uploadTask.addOnFailureListener(new OnFailureListener() {

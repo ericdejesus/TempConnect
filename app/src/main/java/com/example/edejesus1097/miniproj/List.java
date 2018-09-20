@@ -45,14 +45,21 @@ public class List extends AppCompatActivity {
     static FirebaseDatabase database;
     static LinearLayout linearLayout;
     static NestedScrollView scrollView;
+    static ScrollView scrollView1;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //have to recast view since the buttons don't have ids
+                Intent intent = new Intent(List.this, GraphActivity.class);
+                startActivity(intent);
+        }});
+
 
         //these are for adding buttons dynamically based on count of files
         scrollView = findViewById(R.id.nestedscrollview);
@@ -120,8 +127,10 @@ public class List extends AppCompatActivity {
                     button.setText(stringList[i]);
                     linearLayout.addView(button);
                 }
+                setContentView(R.layout.activity_list);
                 //adds the buttons to the view
-                scrollView.addView(linearLayout);
+             scrollView1 =findViewById(R.id.scrollview);
+                scrollView1.addView(linearLayout);
             }
 
             @Override

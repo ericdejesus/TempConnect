@@ -9,4 +9,11 @@
     tools:context=".List"
     tools:showIn="@layout/activity_list">
 
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ScrollView>
 </android.support.v4.widget.NestedScrollView>
